@@ -16,6 +16,7 @@ elseif $TERM =~ '^xterm$'
   set t_Co=256
 endif
 colorscheme molokai
+"color desert256
 
 " Misc
 filetype plugin indent on       " Do filetype detection and load custom file plugins and indent files
@@ -28,10 +29,12 @@ set directory=~/.vim/swap       " Directory to use for the swap file
 set diffopt=filler,iwhite       " In diff mode, ignore whitespace changes and align unchanged lines
 
 " Indentation and tabbing
+set expandtab
+
 set autoindent smartindent
 set smarttab                    " Make <tab> and <backspace> smarter
-set tabstop=8
-set shiftwidth=8                " Indents of 8 spaces
+set tabstop=2
+set shiftwidth=2                " Indents of 8 spaces
 
 " viminfo: remember certain things when we exit
 " (http://vimdoc.sourceforge.net/htmldoc/usr_21.html)
@@ -68,14 +71,12 @@ let html_use_css = 1
 let xml_use_xhtml = 1
 
 " Keybindings to native vim features
-let mapleader=","
-let localmapleader=","
 map <Leader>ss :setlocal spell!<cr>
 map <Leader>/ :nohlsearch<cr>
 map <M-[> :tprev<CR>
 map <M-]> :tnext<CR>
 vnoremap . :normal .<CR>
-vnoremap @ :normal! @
+"vnoremap @ :normal! @
 map <M-j> :bn<cr>
 map <M-k> :bp<cr>
 map <C-PageDown> :cnext<cr>
@@ -112,8 +113,8 @@ let g:quickfixsigns_classes=['qfl', 'vcsdiff', 'breakpoints']
 let g:Powerline_symbols = 'unicode'
 set laststatus=2
 
-let g:ctrlp_map = '<c-e>'
-let g:ctrlp_custom_ignore = '/\.\|\.o\|\.so'
+"let g:ctrlp_map = '<c-e>'
+"let g:ctrlp_custom_ignore = '/\.\|\.o\|\.so'
 
 noremap <Leader>t= :Tabularize /=<CR>
 noremap <Leader>t: :Tabularize /^[^:]*:\zs/l0l1<CR>
@@ -158,7 +159,7 @@ let g:ScreenImpl = 'Tmux'
 let g:ScreenShellTmuxInitArgs = '-2'
 let g:ScreenShellInitialFocus = 'shell'
 let g:ScreenShellQuitOnVimExit = 0
-map <F5> :ScreenShellVertical<CR>
+map <Leader><F6> :ScreenShellVertical<CR>
 command -nargs=? -complete=shellcmd W  :w | :call ScreenShellSend("load '".@%."';")
 map <Leader>c :ScreenShellVertical bundle exec rails c<CR>
 map <Leader>r :w<CR> :call ScreenShellSend("rspec ".@% . ':' . line('.'))<CR>
@@ -170,3 +171,13 @@ set shortmess+=A
 
 " Toggle paste mode while in insert mode with F12
 set pastetoggle=<F12>
+
+set wrap
+" Make F5 and F6 magic white space scrubbers
+nnoremap <silent> <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
+nnoremap <silent> <F6> :retab<CR>
+
+" Code folding
+set foldmethod=syntax
+set foldnestmax=5
+autocmd BufEnter * exe "normal zR"
