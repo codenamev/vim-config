@@ -19,6 +19,7 @@ elseif $TERM =~ '^xterm$'
   set t_Co=256
 endif
 colorscheme molokai
+"color desert256
 
 " Misc
 filetype plugin indent on       " Do filetype detection and load custom file plugins and indent files
@@ -97,14 +98,22 @@ au CursorHold * checktime
 """""""""""""""""""""""""
 " Keybindings
 """""""""""""""""""""""""
-let mapleader=","
-let localmapleader=","
-
 nmap <Leader>s :%S/
 vmap <Leader>s :S/
 
 vnoremap . :normal .<CR>
-vnoremap @ :normal! @
+"vnoremap @ :normal! @
+
+" Wrap overflow
+set wrap
+" Make F5 and F6 magic white space scrubbers
+nnoremap <silent> <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
+nnoremap <silent> <F6> :retab<CR>
+
+" Code folding
+set foldmethod=syntax
+set foldnestmax=5
+autocmd BufEnter * exe "normal zR"
 
 " Toggles
 set pastetoggle=<F1>
