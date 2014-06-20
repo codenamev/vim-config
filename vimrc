@@ -115,6 +115,13 @@ set foldmethod=syntax
 set foldnestmax=5
 autocmd BufEnter * exe "normal zR"
 
+" Newline helper
+if exists('+colorcolumn')
+    set colorcolumn=116
+else
+    au BufWinEnter * let w:m2=matchadd('ErrorMsg', '\%116v.\+', -1)
+endif
+
 " Toggles
 set pastetoggle=<F1>
 " the nmap is just for quicker powerline feedback
