@@ -38,7 +38,7 @@ install: $(clearfiles) $(TARGETS)
 	git submodule update --init
 
 update:
-	git pull
+	git pull origin master
 	git submodule sync
 	git submodule update --init
 
